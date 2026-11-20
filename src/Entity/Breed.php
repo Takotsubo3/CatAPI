@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Metadata\ApiResource;
 
 #[ORM\Entity(repositoryClass: BreedRepository::class)]
 class Breed
@@ -14,9 +15,10 @@ class Breed
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[ApiResource]
     private ?int $id = null;
 
-    #[ORM\Column(length: 50, uniqidue: true)]
+    #[ORM\Column(length: 50, unique: true)]
     private ?string $catApiId = null;
 
     #[ORM\Column(length: 255, unique: true)]

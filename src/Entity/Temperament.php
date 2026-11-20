@@ -6,6 +6,8 @@ use App\Repository\TemperamentRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Metadata\ApiResource;
+
 
 #[ORM\Entity(repositoryClass: TemperamentRepository::class)]
 class Temperament
@@ -13,6 +15,7 @@ class Temperament
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[ApiResource]
     private ?int $id = null;
 
     #[ORM\Column(length: 255, unique: true)]
