@@ -10,12 +10,13 @@ use ApiPlatform\Metadata\ApiResource;
 
 
 #[ORM\Entity(repositoryClass: TemperamentRepository::class)]
+#[ApiResource]
+
 class Temperament
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[ApiResource]
     private ?int $id = null;
 
     #[ORM\Column(length: 255, unique: true)]
