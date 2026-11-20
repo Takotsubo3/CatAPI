@@ -14,7 +14,7 @@ use Doctrine\ORM\EntityManagerInterface;
 
 final class CatApiImporter
 {
-    private const MAX_BREEDS = 100;
+    private const MAX_BREEDS = 120;
     private const MAX_NAME_LENGTH = 255;
     private const MAX_TEXT_LENGTH = 2000;
 
@@ -27,13 +27,16 @@ final class CatApiImporter
         $countries = $this->indexByName($this->countryRepository->findAll());
         $groups = $this->indexByName($this->groupRepository->findAll());
         $temperaments = $this->indexByName($this->temperamentRepository->findAll());
-        $existingCatApiIds = array_fill_keys(
-            array_map(
-                static fn (Breed $breed): string => $breed->getCatApiId() ?? '',
-                $this->breedRepository->findAll()
-            ),
-            true
-        );
+        $existingCatApiIds = [];
+        $existingNames = [];
+        foreach ($this->breedRepository->findAll() as $existingBreed) {
+            $existingCatApiIds[$existingBreed->getCatApiId() ?? ''] = true;
+
+            $existingName = $existingBreed->getName();
+            if (is_string($existingName) && $existingName !== '') {
+                $existingNames[$this->key($existingName)] = true;
+            }
+        }
 
         $imported = 0;
         $skipped = 0;
@@ -53,6 +56,12 @@ final class CatApiImporter
             }
 
             if (isset($existingCatApiIds[$catApiId])) {
+                ++$skipped;
+                continue;
+            }
+
+            $nameKey = $this->key($name);
+            if (isset($existingNames[$nameKey])) {
                 ++$skipped;
                 continue;
             }
@@ -109,6 +118,7 @@ final class CatApiImporter
 
             $this->entityManager->persist($breed);
             $existingCatApiIds[$catApiId] = true;
+            $existingNames[$nameKey] = true;
             ++$imported;
         }
 
