@@ -9,3 +9,10 @@
 /vendor/
 breed.json
 ###< symfony/framework-bundle ###
+
+README.md
+
+# env
+
+.env.dev
+.env

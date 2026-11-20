@@ -25,7 +25,7 @@ class Breed
     #[ORM\Column(length: 255, unique: true)]
     private ?string $name = null;
 
-    #[ORM\Column(length: 20)]
+    #[ORM\Column(length: 20, nullable: true)]
     private ?string $lifeSpan = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
@@ -34,18 +34,18 @@ class Breed
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $history = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?int $weight = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?int $height = null;
 
     #[ORM\ManyToOne(inversedBy: 'breeds')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?Country $country_id = null;
 
     #[ORM\ManyToOne(inversedBy: 'breeds')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?Group $group_id = null;
 
     /**
@@ -93,7 +93,7 @@ class Breed
         return $this->lifeSpan;
     }
 
-    public function setLifeSpan(string $lifeSpan): static
+    public function setLifeSpan(?string $lifeSpan): static
     {
         $this->lifeSpan = $lifeSpan;
 
@@ -129,7 +129,7 @@ class Breed
         return $this->weight;
     }
 
-    public function setWeight(int $weight): static
+    public function setWeight(?int $weight): static
     {
         $this->weight = $weight;
 
@@ -141,7 +141,7 @@ class Breed
         return $this->height;
     }
 
-    public function setHeight(int $height): static
+    public function setHeight(?int $height): static
     {
         $this->height = $height;
 
